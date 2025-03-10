@@ -1,3 +1,3 @@
-variable "env" {
-  default = "test"
+variable "subscription_id" {
+  type = string
 }
