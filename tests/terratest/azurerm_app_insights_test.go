@@ -39,5 +39,5 @@ func TestTerraformValidatePlanApply(t *testing.T) {
 	assert.NotEmpty(t, instrumentationKey)
 	assert.NotEmpty(t, connectionString)
 	assert.NotEmpty(t, id)
-	assert.NotEmpty(t, workspaceId)
+	assert.Equal(t, "/subscriptions/e6b5053b-4c38-4475-a835-a025aeb3d8c7/resourceGroups/RG-MDV-LAB-INT-01/providers/Microsoft.OperationalInsights/workspaces/LA-MDV-LAB-INT-WS", workspaceId)
 }

@@ -50,7 +50,6 @@ module "app-insights" {
   source = "./../"
 
   app_insights_name                       = "example-app-insights"
-  log_analytics_workspace_name            = "example-log-analytics"
   location                                = "UK South"
   existing_resource_group_name            = azurerm_resource_group.this.name
   environment                             = "LAB"
