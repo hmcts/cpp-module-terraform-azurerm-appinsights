@@ -15,6 +15,7 @@ func TestTerraformValidatePlanApply(t *testing.T) {
 		Upgrade: true,
 		VarFiles: []string{"../../example/terratest.tfvars"},
 		NoColor: true,
+		PlanFilePath: "./plan.out",
 	})
 
 	validateOptions := terraform.WithDefaultRetryableErrors(t, &terraform.Options{
