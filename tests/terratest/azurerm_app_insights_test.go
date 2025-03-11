@@ -15,6 +15,13 @@ func getValidateOptions(t *testing.T) *terraform.Options {
 	})
 }
 
+func getDestroyPrivateEndpointOptions(t *testing.T) *terraform.Options {
+	return terraform.WithDefaultRetryableErrors(t, &terraform.Options{
+		TerraformDir: "../../example",
+		Targets: []string{"module.app-insights.azurerm_private_endpoint.this"},
+	})
+}
+
 func getOutput(t *testing.T, terraformOptions *terraform.Options) (string, string, string, string) {
 	instrumentationKey := terraform.Output(t, terraformOptions, "instrumentation_key")
 	connectionString := terraform.Output(t, terraformOptions, "connection_string")
@@ -38,6 +45,7 @@ func TestCreateNewLogAnalyticsWorkspace(t *testing.T) {
 	terraform.InitAndValidate(t, getValidateOptions(t))
 	terraform.InitAndPlanAndShowWithStruct(t, terraformOptions)
 
+	defer terraform.Destroy(t, getDestroyPrivateEndpointOptions(t))
 	defer terraform.Destroy(t, terraformOptions)
 
 	terraform.Apply(t, terraformOptions)
@@ -65,6 +73,8 @@ func TestUseExistingEnvironmentLogAnalyticsWorkspace(t *testing.T) {
 	terraform.InitAndValidate(t, getValidateOptions(t))
 	terraform.InitAndPlanAndShowWithStruct(t, terraformOptions)
 
+	// Destroy the private endpoint first to avoid errors deleting subnet in use
+	defer terraform.Destroy(t, getDestroyPrivateEndpointOptions(t))
 	defer terraform.Destroy(t, terraformOptions)
 
 	terraform.Apply(t, terraformOptions)
