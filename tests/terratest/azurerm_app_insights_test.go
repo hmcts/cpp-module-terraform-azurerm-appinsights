@@ -13,7 +13,7 @@ func TestTerraformValidatePlanApply(t *testing.T) {
 	terraformOptions := terraform.WithDefaultRetryableErrors(t, &terraform.Options{
 		TerraformDir: "../../example",
 		Upgrade: true,
-		VarFiles: []string{"../../example/terratest.tfvars"},
+		VarFiles: []string{"terratest.tfvars"},
 		NoColor: true,
 		PlanFilePath: "./plan.out",
 	})
