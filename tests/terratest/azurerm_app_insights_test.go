@@ -28,7 +28,7 @@ func TestCreateNewLogAnalyticsWorkspace(t *testing.T) {
 		TerraformDir: "../../example",
 		Upgrade:      true,
 		Vars: map[string]interface{}{
-			"subscription_id": "8db5405-7535-4349-92e9-f52bddc7833a",
+			"subscription_id": "8cdb5405-7535-4349-92e9-f52bddc7833a",
 			"log_analytics_workspace_name": "example-log-analytics-workspace",
 		},
 		NoColor:      true,
