@@ -2,6 +2,7 @@ package test
 
 import (
 	"testing"
+	"time"
 
 	"github.com/gruntwork-io/terratest/modules/terraform"
 	"github.com/stretchr/testify/assert"
@@ -51,6 +52,8 @@ func TestCreateNewLogAnalyticsWorkspace(t *testing.T) {
 	// Destroy the private endpoint first to avoid errors deleting subnet in use
 	defer func() {
 		terraform.Destroy(t, getDestroyPrivateEndpointOptions(t, vars))
+		// Wait for the NIC for the now deleted PE to be removed before destroying the rest of the resources
+		time.Sleep(30 * time.Second)
 		terraform.Destroy(t, terraformOptions)
 	}()
 
@@ -84,6 +87,8 @@ func TestUseExistingEnvironmentLogAnalyticsWorkspace(t *testing.T) {
 	// Destroy the private endpoint first to avoid errors deleting subnet in use
 	defer func() {
 		terraform.Destroy(t, getDestroyPrivateEndpointOptions(t, vars))
+		// Wait for the NIC for the now deleted PE to be removed before destroying the rest of the resources
+		time.Sleep(30 * time.Second)
 		terraform.Destroy(t, terraformOptions)
 	}()
 

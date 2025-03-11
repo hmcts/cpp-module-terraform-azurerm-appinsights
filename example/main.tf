@@ -49,6 +49,8 @@ resource "azurerm_private_dns_zone_virtual_network_link" "this" {
 module "app-insights" {
   source = "./../"
 
+  depends_on = [ azurerm_subnet.this ]
+
   app_insights_name                       = "example-app-insights"
   log_analytics_workspace_name            = var.log_analytics_workspace_name
   location                                = "UK South"
