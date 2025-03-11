@@ -49,8 +49,10 @@ func TestCreateNewLogAnalyticsWorkspace(t *testing.T) {
 	terraform.InitAndPlanAndShowWithStruct(t, terraformOptions)
 
 	// Destroy the private endpoint first to avoid errors deleting subnet in use
-	defer terraform.Destroy(t, getDestroyPrivateEndpointOptions(t, vars))
-	defer terraform.Destroy(t, terraformOptions)
+	defer func() {
+		terraform.Destroy(t, getDestroyPrivateEndpointOptions(t, vars))
+		terraform.Destroy(t, terraformOptions)
+	}()
 
 	terraform.Apply(t, terraformOptions)
 
