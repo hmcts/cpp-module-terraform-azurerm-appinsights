@@ -11,7 +11,7 @@ locals {
 }
 
 resource "azurerm_resource_group" "this" {
-  name     = "example-resource-group"
+  name     = "example-app-insights-rg"
   location = "UK South"
   tags     = local.tags
 }
@@ -50,6 +50,7 @@ module "app-insights" {
   source = "./../"
 
   app_insights_name                       = "example-app-insights"
+  log_analytics_workspace_name            = var.log_analytics_workspace_name
   location                                = "UK South"
   existing_resource_group_name            = azurerm_resource_group.this.name
   environment                             = "LAB"
