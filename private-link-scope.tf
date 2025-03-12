@@ -24,6 +24,8 @@ resource "azurerm_private_endpoint" "this" {
     name                 = "${var.app_insights_name}-ampls-dns-zone-group"
     private_dns_zone_ids = var.private_link_scope_private_dns_zone_ids
   }
+
+  depends_on = [azurerm_monitor_private_link_scope.this]
 }
 
 resource "azurerm_monitor_private_link_scoped_service" "appinsights" {
