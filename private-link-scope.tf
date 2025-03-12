@@ -25,7 +25,11 @@ resource "azurerm_private_endpoint" "this" {
     private_dns_zone_ids = var.private_link_scope_private_dns_zone_ids
   }
 
-  depends_on = [azurerm_monitor_private_link_scope.this]
+  depends_on = [
+    azurerm_monitor_private_link_scope.this,
+    azurerm_monitor_private_link_scoped_service.appinsights,
+    azurerm_monitor_private_link_scoped_service.loganalytics
+  ]
 }
 
 resource "azurerm_monitor_private_link_scoped_service" "appinsights" {
