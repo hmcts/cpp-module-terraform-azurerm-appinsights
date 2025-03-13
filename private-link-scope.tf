@@ -1,5 +1,5 @@
 resource "azurerm_monitor_private_link_scope" "this" {
-  count               = var.private_connectivity != null && var.private_connectivity.existing_scope == false ? 1 : 0
+  count               = var.private_connectivity == null ? 0 : var.private_connectivity.existing_scope == false ? 1 : 0
   name                = "${var.app_insights_name}-ampls"
   resource_group_name = var.resource_group.name
 
@@ -9,7 +9,7 @@ resource "azurerm_monitor_private_link_scope" "this" {
 }
 
 resource "azurerm_private_endpoint" "this" {
-  count               = var.private_connectivity != null && var.private_connectivity.existing_scope == false ? 1 : 0
+  count               = var.private_connectivity == null ? 0 : var.private_connectivity.existing_scope == false ? 1 : 0
   name                = "${var.app_insights_name}-ampls-pe"
   location            = var.location
   resource_group_name = var.resource_group.name
