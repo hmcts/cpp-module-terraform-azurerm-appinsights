@@ -1,5 +1,5 @@
 resource "azurerm_monitor_private_link_scope" "this" {
-  count               = var.existing_private_link_scope_name == null && var.existing_private_link_scope_rg_name == null ? 1 : 0
+  count               = var.existing_private_link_scope_name == null && var.existing_private_link_scope_rg_name == null && var.ampls_pe_subnet_id != null ? 1 : 0
   name                = "${var.app_insights_name}-ampls"
   resource_group_name = local.resource_group_name
 
@@ -9,6 +9,7 @@ resource "azurerm_monitor_private_link_scope" "this" {
 }
 
 resource "azurerm_private_endpoint" "this" {
+  count               = var.existing_private_link_scope_name == null && var.existing_private_link_scope_rg_name == null && var.ampls_pe_subnet_id != null ? 1 : 0
   name                = "${var.app_insights_name}-ampls-pe"
   location            = var.location
   resource_group_name = local.resource_group_name
