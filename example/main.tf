@@ -1,39 +1,46 @@
 locals {
-  dns_zones = {
+  dns_zones = var.private_connectivity ? {
     "privatelink-monitor-azure-com"             = "privatelink.monitor.azure.com"
     "privatelink-oms-opinsights-azure-com"      = "privatelink.oms.opinsights.azure.com"
     "privatelink-ods-opinsights-azure-com"      = "privatelink.ods.opinsights.azure.com"
     "privatelink-agentsvc-azure-automation-net" = "privatelink.agentsvc.azure-automation.net"
     "privatelink-blob-core-windows-net"         = "privatelink.blob.core.windows.net"
-  }
+  } : {}
+
+  resource_group_name = "example-app-insights-rg"
+  location            = "UK South"
 
   tags = {}
 }
 
 resource "azurerm_resource_group" "this" {
-  name     = "example-app-insights-rg"
-  location = "UK South"
+  count    = var.private_connectivity ? 1 : 0
+  name     = local.resource_group_name
+  location = local.location
   tags     = local.tags
 }
 
 resource "azurerm_virtual_network" "this" {
+  count               = var.private_connectivity ? 1 : 0
   name                = "example-vnet"
-  location            = azurerm_resource_group.this.location
-  resource_group_name = azurerm_resource_group.this.name
+  location            = azurerm_resource_group.this[0].location
+  resource_group_name = azurerm_resource_group.this[0].name
   address_space       = ["10.0.0.0/16"]
   tags                = local.tags
 }
 
 resource "azurerm_subnet" "this" {
+  count                = var.private_connectivity ? 1 : 0
   name                 = "private-endpoints"
-  resource_group_name  = azurerm_resource_group.this.name
-  virtual_network_name = azurerm_virtual_network.this.name
+  resource_group_name  = azurerm_resource_group.this[0].name
+  virtual_network_name = azurerm_virtual_network.this[0].name
   address_prefixes     = ["10.0.0.0/16"]
 }
 
 resource "azurerm_private_dns_zone" "this" {
+  count               = var.private_connectivity ? 1 : 0
   for_each            = local.dns_zones
-  resource_group_name = azurerm_resource_group.this.name
+  resource_group_name = azurerm_resource_group.this[0].name
   name                = each.value
   tags                = local.tags
 }
@@ -51,12 +58,21 @@ module "app-insights" {
 
   depends_on = [azurerm_subnet.this]
 
-  app_insights_name                       = "example-app-insights"
-  log_analytics_workspace_name            = var.log_analytics_workspace_name
-  location                                = "UK South"
-  existing_resource_group_name            = azurerm_resource_group.this.name
-  environment                             = "LAB"
-  ampls_pe_subnet_id                      = azurerm_subnet.this.id
-  private_link_scope_private_dns_zone_ids = [for dns_zone in azurerm_private_dns_zone.this : dns_zone.id]
-  tags                                    = local.tags
+  app_insights_name = "example-app-insights"
+  location          = local.location
+  environment       = "LAB"
+  tags              = local.tags
+
+  log_analytics_workspace = {
+    name = var.log_analytics_workspace_name
+  }
+  resource_group = {
+    name     = local.resource_group_name
+    existing = var.private_connectivity
+  }
+
+  private_connectivity = var.private_connectivity ? {
+    subnet_id    = azurerm_subnet.this.id
+    dns_zone_ids = [for dns_zone in azurerm_private_dns_zone.this : dns_zone.id]
+  } : {}
 }

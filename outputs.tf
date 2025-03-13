@@ -11,5 +11,5 @@ output "connection_string" {
 }
 
 output "log_analytics_workspace_id" {
-  value = var.log_analytics_workspace_name == null ? data.azurerm_log_analytics_workspace.existing[0].id : azurerm_log_analytics_workspace.new[0].id
+  value = var.log_analytics_workspace == null ? data.azurerm_log_analytics_workspace.existing[0].id : azurerm_log_analytics_workspace.new[0].id
 }
