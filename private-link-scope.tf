@@ -39,6 +39,8 @@ resource "azurerm_monitor_private_link_scoped_service" "appinsights" {
   resource_group_name = local.ampls_scope_rg_name
   scope_name          = local.ampls_scope_name
   linked_resource_id  = azurerm_application_insights.this.id
+
+  depends_on = [azurerm_monitor_private_link_scope.this, azurerm_private_endpoint.this]
 }
 
 resource "azurerm_monitor_private_link_scoped_service" "loganalytics" {
@@ -47,4 +49,6 @@ resource "azurerm_monitor_private_link_scoped_service" "loganalytics" {
   resource_group_name = local.ampls_scope_rg_name
   scope_name          = local.ampls_scope_name
   linked_resource_id  = azurerm_log_analytics_workspace.new[0].id
+
+  depends_on = [azurerm_monitor_private_link_scope.this, azurerm_private_endpoint.this]
 }

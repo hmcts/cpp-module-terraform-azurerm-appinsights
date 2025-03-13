@@ -5,6 +5,6 @@ locals {
   environment_law_rg_name    = "RG-${local.mgmt_zone}-${local.upper_environment}-INT-01"
   internet_ingestion_enabled = var.private_connectivity == null ? true : var.internet_ingestion_enabled
   internet_query_enabled     = var.private_connectivity == null ? true : var.internet_query_enabled
-  ampls_scope_name           = var.private_connectivity.existing_scope ? var.private_connectivity.scope_rg_name : var.resource_group.name
-  ampls_scope_rg_name        = var.private_connectivity.existing_scope ? var.private_connectivity.scope_name : azurerm_monitor_private_link_scope.this[0].name
+  ampls_scope_name           = var.private_connectivity == null ? null : var.private_connectivity.existing_scope ? var.private_connectivity.scope_rg_name : var.resource_group.name
+  ampls_scope_rg_name        = var.private_connectivity == null ? null : var.private_connectivity.existing_scope ? var.private_connectivity.scope_name : azurerm_monitor_private_link_scope.this[0].name
 }
