@@ -34,6 +34,7 @@ resource "azurerm_private_endpoint" "this" {
 }
 
 resource "azurerm_monitor_private_link_scoped_service" "appinsights" {
+  count               = local.deploy_private_connectivity ? 1 : 0
   name                = "${var.app_insights_name}-amplsservice"
   resource_group_name = local.ampls_scope_rg_name
   scope_name          = local.ampls_scope_name
@@ -41,7 +42,7 @@ resource "azurerm_monitor_private_link_scoped_service" "appinsights" {
 }
 
 resource "azurerm_monitor_private_link_scoped_service" "loganalytics" {
-  count               = var.log_analytics_workspace_name != null ? 1 : 0
+  count               = var.log_analytics_workspace_name != null && local.deploy_private_connectivity ? 1 : 0
   name                = "${var.log_analytics_workspace_name}-amplsservice"
   resource_group_name = local.ampls_scope_rg_name
   scope_name          = local.ampls_scope_name
