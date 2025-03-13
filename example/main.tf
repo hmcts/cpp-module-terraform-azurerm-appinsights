@@ -38,7 +38,6 @@ resource "azurerm_subnet" "this" {
 }
 
 resource "azurerm_private_dns_zone" "this" {
-  count               = var.private_connectivity ? 1 : 0
   for_each            = local.dns_zones
   resource_group_name = azurerm_resource_group.this[0].name
   name                = each.value

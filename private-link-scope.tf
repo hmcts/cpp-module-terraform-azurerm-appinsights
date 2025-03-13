@@ -4,8 +4,8 @@ resource "azurerm_monitor_private_link_scope" "this" {
   resource_group_name = var.resource_group.name
 
   # Open allows resources to connect to both private and public endpoints, setting these values to PrivateOnly will restrict access to only private endpoints
-  ingestion_access_mode = var.private_connectivity.ingestion_access_mode
-  query_access_mode     = var.private_connectivity.query_access_mode
+  ingestion_access_mode = var.private_connectivity.ingestion_mode
+  query_access_mode     = var.private_connectivity.query_mode
 }
 
 resource "azurerm_private_endpoint" "this" {

@@ -4,8 +4,8 @@ resource "azurerm_log_analytics_workspace" "new" {
   location                   = var.location
   resource_group_name        = var.resource_group.name
   sku                        = var.log_analytics_workspace.sku
-  retention_in_days          = var.log_analytics_workspace.retention
-  daily_quota_gb             = var.log_analytics_workspace.quota
+  retention_in_days          = var.log_analytics_workspace.retention_in_days
+  daily_quota_gb             = var.log_analytics_workspace.daily_quota_gb
   internet_ingestion_enabled = local.internet_ingestion_enabled
   internet_query_enabled     = local.internet_query_enabled
 }
