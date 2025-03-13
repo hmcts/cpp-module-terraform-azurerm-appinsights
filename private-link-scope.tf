@@ -1,5 +1,5 @@
 resource "azurerm_monitor_private_link_scope" "this" {
-  count               = var.existing_private_link_scope_name == null && var.existing_private_link_scope_rg_name == null && var.ampls_pe_subnet_id != null ? 1 : 0
+  for_each            = var.existing_private_link_scope_name == null && var.existing_private_link_scope_rg_name == null && var.ampls_pe_subnet_id != null ? { 0 = "" } : {}
   name                = "${var.app_insights_name}-ampls"
   resource_group_name = local.resource_group_name
 
@@ -9,7 +9,7 @@ resource "azurerm_monitor_private_link_scope" "this" {
 }
 
 resource "azurerm_private_endpoint" "this" {
-  count               = var.existing_private_link_scope_name == null && var.existing_private_link_scope_rg_name == null && var.ampls_pe_subnet_id != null ? 1 : 0
+  for_each            = var.existing_private_link_scope_name == null && var.existing_private_link_scope_rg_name == null && var.ampls_pe_subnet_id != null ? { 0 = "" } : {}
   name                = "${var.app_insights_name}-ampls-pe"
   location            = var.location
   resource_group_name = local.resource_group_name
@@ -34,7 +34,7 @@ resource "azurerm_private_endpoint" "this" {
 }
 
 resource "azurerm_monitor_private_link_scoped_service" "appinsights" {
-  count               = local.deploy_private_connectivity ? 1 : 0
+  for_each            = local.deploy_private_connectivity ? { 0 = "" } : {}
   name                = "${var.app_insights_name}-amplsservice"
   resource_group_name = local.ampls_scope_rg_name
   scope_name          = local.ampls_scope_name
@@ -42,7 +42,7 @@ resource "azurerm_monitor_private_link_scoped_service" "appinsights" {
 }
 
 resource "azurerm_monitor_private_link_scoped_service" "loganalytics" {
-  count               = var.log_analytics_workspace_name != null && local.deploy_private_connectivity ? 1 : 0
+  for_each            = var.log_analytics_workspace_name != null && local.deploy_private_connectivity ? { 0 = "" } : {}
   name                = "${var.log_analytics_workspace_name}-amplsservice"
   resource_group_name = local.ampls_scope_rg_name
   scope_name          = local.ampls_scope_name
