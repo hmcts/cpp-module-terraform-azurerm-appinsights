@@ -1,7 +1,7 @@
 resource "azurerm_monitor_private_link_scope" "this" {
   count               = var.private_connectivity == null ? 0 : var.private_connectivity.existing_scope == false ? 1 : 0
   name                = "${var.app_insights_name}-ampls"
-  resource_group_name = var.resource_group.name
+  resource_group_name = local.resource_group_name
 
   # Open allows resources to connect to both private and public endpoints, setting these values to PrivateOnly will restrict access to only private endpoints
   ingestion_access_mode = var.private_connectivity.ingestion_mode
@@ -12,7 +12,7 @@ resource "azurerm_private_endpoint" "this" {
   count               = var.private_connectivity == null ? 0 : var.private_connectivity.existing_scope == false ? 1 : 0
   name                = "${var.app_insights_name}-ampls-pe"
   location            = var.location
-  resource_group_name = var.resource_group.name
+  resource_group_name = local.resource_group_name
   subnet_id           = var.private_connectivity.subnet_id
   private_service_connection {
     name                           = "${var.app_insights_name}-ampls-psc"
