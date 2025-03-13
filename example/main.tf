@@ -73,5 +73,5 @@ module "app-insights" {
   private_connectivity = var.private_connectivity ? {
     subnet_id    = azurerm_subnet.this[0].id
     dns_zone_ids = [for dns_zone in azurerm_private_dns_zone.this : dns_zone.id]
-  } : {}
+  } : null
 }
