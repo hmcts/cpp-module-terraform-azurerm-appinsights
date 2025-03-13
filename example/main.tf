@@ -47,9 +47,9 @@ resource "azurerm_private_dns_zone" "this" {
 resource "azurerm_private_dns_zone_virtual_network_link" "this" {
   for_each              = local.dns_zones
   name                  = "${each.key}-vnet-link"
-  virtual_network_id    = azurerm_virtual_network.this.id
+  virtual_network_id    = azurerm_virtual_network.this[0].id
   private_dns_zone_name = azurerm_private_dns_zone.this[each.key].name
-  resource_group_name   = azurerm_resource_group.this.name
+  resource_group_name   = azurerm_resource_group.this[0].name
 }
 
 module "app-insights" {
@@ -71,7 +71,7 @@ module "app-insights" {
   }
 
   private_connectivity = var.private_connectivity ? {
-    subnet_id    = azurerm_subnet.this.id
+    subnet_id    = azurerm_subnet.this[0].id
     dns_zone_ids = [for dns_zone in azurerm_private_dns_zone.this : dns_zone.id]
   } : {}
 }
