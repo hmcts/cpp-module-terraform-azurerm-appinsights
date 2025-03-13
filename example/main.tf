@@ -62,7 +62,7 @@ module "app-insights" {
   environment       = "LAB"
   tags              = local.tags
 
-  log_analytics_workspace = {
+  log_analytics_workspace = var.log_analytics_workspace_name == null ? null : {
     name = var.log_analytics_workspace_name
   }
   resource_group = {
