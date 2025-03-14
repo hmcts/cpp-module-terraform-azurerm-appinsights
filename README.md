@@ -46,26 +46,17 @@ module "todo_resource_name" {
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_ampls_pe_subnet_id"></a> [ampls\_pe\_subnet\_id](#input\_ampls\_pe\_subnet\_id) | The ID of the Subnet to which the private endpoint for AMPLS should be connected. | `string` | `null` | no |
 | <a name="input_app_insights_daily_data_cap_in_gb"></a> [app\_insights\_daily\_data\_cap\_in\_gb](#input\_app\_insights\_daily\_data\_cap\_in\_gb) | The daily data cap in GB for the app insights resource. | `number` | `50` | no |
 | <a name="input_app_insights_name"></a> [app\_insights\_name](#input\_app\_insights\_name) | Name of the app insights resource. | `string` | n/a | yes |
 | <a name="input_app_insights_retention_in_days"></a> [app\_insights\_retention\_in\_days](#input\_app\_insights\_retention\_in\_days) | The number of days the app insights resource should retain data for. | `number` | `30` | no |
 | <a name="input_app_insights_type"></a> [app\_insights\_type](#input\_app\_insights\_type) | The type of app insights resource. See https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/application_insights#application_type-1 for valid values | `string` | `"other"` | no |
 | <a name="input_environment"></a> [environment](#input\_environment) | Environment into which resources are deployed. | `string` | n/a | yes |
-| <a name="input_existing_private_link_scope_name"></a> [existing\_private\_link\_scope\_name](#input\_existing\_private\_link\_scope\_name) | Name of an existing Azure Monitor Private Link Scope to use. | `string` | `null` | no |
-| <a name="input_existing_private_link_scope_rg_name"></a> [existing\_private\_link\_scope\_rg\_name](#input\_existing\_private\_link\_scope\_rg\_name) | Name of the resource group the Azure Monitor Private Link Scope is deployed in. | `string` | `null` | no |
-| <a name="input_existing_resource_group_name"></a> [existing\_resource\_group\_name](#input\_existing\_resource\_group\_name) | Name of an existing resource group to deploy resources into. | `string` | `null` | no |
 | <a name="input_internet_ingestion_enabled"></a> [internet\_ingestion\_enabled](#input\_internet\_ingestion\_enabled) | Boolean flag to enable or disable internet ingestion for the app insights resource. | `bool` | `false` | no |
 | <a name="input_internet_query_enabled"></a> [internet\_query\_enabled](#input\_internet\_query\_enabled) | Boolean flag to enable or disable internet query for the app insights resource. | `bool` | `false` | no |
 | <a name="input_location"></a> [location](#input\_location) | Azure region into which resources are deployed. | `string` | `"uksouth"` | no |
-| <a name="input_log_analytics_workspace_name"></a> [log\_analytics\_workspace\_name](#input\_log\_analytics\_workspace\_name) | The name of the log analytics workspace resource. | `string` | `null` | no |
-| <a name="input_log_analytics_workspace_quota"></a> [log\_analytics\_workspace\_quota](#input\_log\_analytics\_workspace\_quota) | The daily quota for data ingestion in DB. | `number` | `50` | no |
-| <a name="input_log_analytics_workspace_retention"></a> [log\_analytics\_workspace\_retention](#input\_log\_analytics\_workspace\_retention) | The number of days the log analytics workspaces should retain data for. | `number` | `30` | no |
-| <a name="input_log_analytics_workspace_sku"></a> [log\_analytics\_workspace\_sku](#input\_log\_analytics\_workspace\_sku) | The SKU of log analytics workspace to deploy. | `string` | `"PerGB2018"` | no |
-| <a name="input_private_link_scope_ingestion_mode"></a> [private\_link\_scope\_ingestion\_mode](#input\_private\_link\_scope\_ingestion\_mode) | value for ingestion\_access\_mode in azurerm\_monitor\_private\_link\_scope, can be either Open or PrivateOnly | `string` | `"Open"` | no |
-| <a name="input_private_link_scope_private_dns_zone_ids"></a> [private\_link\_scope\_private\_dns\_zone\_ids](#input\_private\_link\_scope\_private\_dns\_zone\_ids) | List of private DNS zone IDs to associate with the private link scope private endpoint. | `list(string)` | `[]` | no |
-| <a name="input_private_link_scope_query_mode"></a> [private\_link\_scope\_query\_mode](#input\_private\_link\_scope\_query\_mode) | value for query\_access\_mode in azurerm\_monitor\_private\_link\_scope, can be either Open or PrivateOnly | `string` | `"Open"` | no |
-| <a name="input_resource_group_name"></a> [resource\_group\_name](#input\_resource\_group\_name) | Name of the resource group. | `string` | `null` | no |
+| <a name="input_log_analytics_workspace"></a> [log\_analytics\_workspace](#input\_log\_analytics\_workspace) | n/a | <pre>object({<br/>    name              = string<br/>    sku               = optional(string, "PerGB2018")<br/>    retention_in_days = optional(number, 30)<br/>    daily_quota_gb    = optional(number, 50)<br/>  })</pre> | `null` | no |
+| <a name="input_private_connectivity"></a> [private\_connectivity](#input\_private\_connectivity) | n/a | <pre>object({<br/>    subnet_id      = string<br/>    scope_name     = optional(string)<br/>    scope_rg_name  = optional(string)<br/>    existing_scope = optional(bool, false)<br/>    ingestion_mode = optional(string, "Open")<br/>    query_mode     = optional(string, "Open")<br/>    dns_zone_ids   = optional(list(string), [])<br/>  })</pre> | `null` | no |
+| <a name="input_resource_group"></a> [resource\_group](#input\_resource\_group) | Defines the resource group to deploy resources into. If `existing` is set to true, the module will use the existing resource group with the specified name. | <pre>object({<br/>    name     = string<br/>    existing = optional(bool, false)<br/>  })</pre> | n/a | yes |
 | <a name="input_tags"></a> [tags](#input\_tags) | Map of tags to apply to all resources. | `map(string)` | `{}` | no |
 
 ## Outputs

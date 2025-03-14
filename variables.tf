@@ -15,16 +15,12 @@ variable "tags" {
   default     = {}
 }
 
-variable "resource_group_name" {
-  type        = string
-  description = "Name of the resource group."
-  default     = null
-}
-
-variable "existing_resource_group_name" {
-  type        = string
-  description = "Name of an existing resource group to deploy resources into."
-  default     = null
+variable "resource_group" {
+  type = object({
+    name     = string
+    existing = optional(bool, false)
+  })
+  description = "Defines the resource group to deploy resources into. If `existing` is set to true, the module will use the existing resource group with the specified name."
 }
 
 variable "app_insights_name" {
@@ -50,66 +46,6 @@ variable "app_insights_retention_in_days" {
   default     = 30
 }
 
-variable "log_analytics_workspace_name" {
-  type        = string
-  description = "The name of the log analytics workspace resource."
-  default     = null
-}
-
-variable "log_analytics_workspace_sku" {
-  type        = string
-  description = "The SKU of log analytics workspace to deploy."
-  default     = "PerGB2018"
-}
-
-variable "log_analytics_workspace_retention" {
-  type        = number
-  description = "The number of days the log analytics workspaces should retain data for."
-  default     = 30
-}
-
-variable "log_analytics_workspace_quota" {
-  type        = number
-  description = "The daily quota for data ingestion in DB."
-  default     = 50
-}
-
-variable "existing_private_link_scope_name" {
-  type        = string
-  description = "Name of an existing Azure Monitor Private Link Scope to use."
-  default     = null
-}
-
-variable "existing_private_link_scope_rg_name" {
-  type        = string
-  description = "Name of the resource group the Azure Monitor Private Link Scope is deployed in."
-  default     = null
-}
-
-variable "private_link_scope_ingestion_mode" {
-  type        = string
-  description = "value for ingestion_access_mode in azurerm_monitor_private_link_scope, can be either Open or PrivateOnly"
-  default     = "Open"
-}
-
-variable "private_link_scope_query_mode" {
-  type        = string
-  description = "value for query_access_mode in azurerm_monitor_private_link_scope, can be either Open or PrivateOnly"
-  default     = "Open"
-}
-
-variable "ampls_pe_subnet_id" {
-  type        = string
-  description = "The ID of the Subnet to which the private endpoint for AMPLS should be connected."
-  default     = null
-}
-
-variable "private_link_scope_private_dns_zone_ids" {
-  type        = list(string)
-  description = "List of private DNS zone IDs to associate with the private link scope private endpoint."
-  default     = []
-}
-
 variable "internet_ingestion_enabled" {
   type        = bool
   description = "Boolean flag to enable or disable internet ingestion for the app insights resource."
@@ -120,4 +56,27 @@ variable "internet_query_enabled" {
   type        = bool
   description = "Boolean flag to enable or disable internet query for the app insights resource."
   default     = false
+}
+
+variable "log_analytics_workspace" {
+  type = object({
+    name              = string
+    sku               = optional(string, "PerGB2018")
+    retention_in_days = optional(number, 30)
+    daily_quota_gb    = optional(number, 50)
+  })
+  default = null
+}
+
+variable "private_connectivity" {
+  type = object({
+    subnet_id      = string
+    scope_name     = optional(string)
+    scope_rg_name  = optional(string)
+    existing_scope = optional(bool, false)
+    ingestion_mode = optional(string, "Open")
+    query_mode     = optional(string, "Open")
+    dns_zone_ids   = optional(list(string), [])
+  })
+  default = null
 }
