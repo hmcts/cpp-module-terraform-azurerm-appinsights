@@ -9,6 +9,8 @@ resource "azurerm_application_insights" "this" {
 
   internet_ingestion_enabled = var.internet_ingestion_enabled
   internet_query_enabled     = var.internet_query_enabled
+  public_network_access_for_ingestion = "Enabled"
+  public_network_access_for_query = "Enabled"
 
   tags = var.tags
 }
