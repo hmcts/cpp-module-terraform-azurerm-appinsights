@@ -11,5 +11,10 @@ output "connection_string" {
 }
 
 output "log_analytics_workspace_id" {
-  value = var.log_analytics_workspace == null ? data.azurerm_log_analytics_workspace.existing[0].id : azurerm_log_analytics_workspace.new[0].id
+  value = var.log_analytics_workspace == null ? azurerm_log_analytics_workspace.new[0].id : data.azurerm_log_analytics_workspace.existing[0].id
+}
+
+output "vault_app_insights_path" {
+  description = "The path where the Application Insights secret was written."
+  value       = vault_generic_secret.app_insights_conn_string.path
 }

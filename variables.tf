@@ -65,7 +65,13 @@ variable "log_analytics_workspace" {
     retention_in_days = optional(number, 30)
     daily_quota_gb    = optional(number, 50)
   })
-  default = null
+  default = {
+    name                = "LA-MDV-SIT-INT-WS"
+    sku                 = "PerGB2018"
+    retention_in_days   = 30
+    daily_quota_gb      = 50
+    resource_group_name = "rg-mdv-sit-int-01"
+  }
 }
 
 variable "private_connectivity" {
