@@ -2,7 +2,7 @@ resource "azurerm_application_insights" "this" {
   name                 = var.app_insights_name
   location             = var.location
   resource_group_name  = local.resource_group_name
-  workspace_id         = var.log_analytics_workspace == null ? azurerm_log_analytics_workspace.new[0].id : data.azurerm_log_analytics_workspace.existing[0].id
+  workspace_id         = var.log_analytics_workspace == null ?  azurerm_log_analytics_workspace.new[0].id : data.azurerm_log_analytics_workspace.existing[0].id
   application_type     = var.app_insights_type
   daily_data_cap_in_gb = var.app_insights_daily_data_cap_in_gb
   retention_in_days    = var.app_insights_retention_in_days

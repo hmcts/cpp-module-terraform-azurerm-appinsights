@@ -15,6 +15,24 @@ variable "tags" {
   default     = {}
 }
 
+variable "builtFrom" {
+  type        = string
+  description = "Provide tag builtFrom"
+  default     = "cpp-module-terraform-azurerm-appinsights"
+}
+
+variable "businessArea" {
+  type        = string
+  description = "Provide tag businessArea"
+  default     = "Crime"
+}
+
+variable "application" {
+  type        = string
+  description = "Provide tag application"
+  default     = "appinsights"
+}
+
 variable "resource_group" {
   type = object({
     name     = string
@@ -65,13 +83,7 @@ variable "log_analytics_workspace" {
     retention_in_days = optional(number, 30)
     daily_quota_gb    = optional(number, 50)
   })
-  default = {
-    name                = "LA-MDV-SIT-INT-WS"
-    sku                 = "PerGB2018"
-    retention_in_days   = 30
-    daily_quota_gb      = 50
-    resource_group_name = "rg-mdv-sit-int-01"
-  }
+  default = null
 }
 
 variable "private_connectivity" {
