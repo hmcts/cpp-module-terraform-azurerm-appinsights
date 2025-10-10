@@ -1,5 +1,5 @@
 resource "azurerm_log_analytics_workspace" "new" {
-  count                      = var.log_analytics_workspace == null ? 0 : 1
+  count                      = var.log_analytics_workspace == null ? 1 : 0
   name                       = var.log_analytics_workspace.name
   location                   = var.location
   resource_group_name        = local.resource_group_name
@@ -11,7 +11,7 @@ resource "azurerm_log_analytics_workspace" "new" {
 }
 
 data "azurerm_log_analytics_workspace" "existing" {
-  count               = var.log_analytics_workspace == null ? 1 : 0
+  count               = var.log_analytics_workspace == null ? 0 : 1
   name                = local.environment_law_name
   resource_group_name = local.environment_law_rg_name
 }

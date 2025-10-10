@@ -10,7 +10,13 @@ locals {
   resource_group_name = "example-app-insights-rg"
   location            = "UK South"
 
-  tags = {}
+  tags = {
+    application  = "appinsights"
+    builtFrom    = "cpp-module-terraform-azurerm-appinsights"
+    businessArea = "Crime"
+    environment  = "lab"
+    expiresAfter = null
+  }
 }
 
 resource "azurerm_resource_group" "this" {

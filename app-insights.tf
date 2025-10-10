@@ -2,7 +2,7 @@ resource "azurerm_application_insights" "this" {
   name                 = var.app_insights_name
   location             = var.location
   resource_group_name  = local.resource_group_name
-  workspace_id         = var.log_analytics_workspace == null ? data.azurerm_log_analytics_workspace.existing[0].id : azurerm_log_analytics_workspace.new[0].id
+  workspace_id         = var.log_analytics_workspace == null ?  azurerm_log_analytics_workspace.new[0].id : data.azurerm_log_analytics_workspace.existing[0].id
   application_type     = var.app_insights_type
   daily_data_cap_in_gb = var.app_insights_daily_data_cap_in_gb
   retention_in_days    = var.app_insights_retention_in_days
@@ -11,4 +11,17 @@ resource "azurerm_application_insights" "this" {
   internet_query_enabled     = var.internet_query_enabled
 
   tags = var.tags
+}
+
+resource "vault_generic_secret" "app_insights_conn_string" {
+  path = format("secret/%s/azure_metrics_monitor_connection_string",
+    var.environment == "nft02" ? "nft" : var.environment
+  )
+  data_json  = <<EOT
+{
+  "instrumentation_key": "${azurerm_application_insights.this.instrumentation_key}",
+  "connection_string": "${azurerm_application_insights.this.connection_string}"
+}
+EOT
+  depends_on = [azurerm_application_insights.this]
 }

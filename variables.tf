@@ -15,6 +15,24 @@ variable "tags" {
   default     = {}
 }
 
+variable "builtFrom" {
+  type        = string
+  description = "Provide tag builtFrom"
+  default     = "cpp-module-terraform-azurerm-appinsights"
+}
+
+variable "businessArea" {
+  type        = string
+  description = "Provide tag businessArea"
+  default     = "Crime"
+}
+
+variable "application" {
+  type        = string
+  description = "Provide tag application"
+  default     = "appinsights"
+}
+
 variable "resource_group" {
   type = object({
     name     = string
