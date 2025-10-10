@@ -1,5 +1,6 @@
 # terraform-module-template
 
+
 <!-- TODO fill in resource name in link to product documentation -->
 Terraform module for [Resource name](https://example.com).
 
