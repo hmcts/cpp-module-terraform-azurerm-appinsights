@@ -3,10 +3,11 @@
 settings:
   hide-empty: true
 
-formatter: "md"
+formatter: "markdown table"
 
 output:
   file: README.md
+  mode: inject
   template: |-
     <!-- BEGIN_TF_DOCS -->
     {{ .Content }}
