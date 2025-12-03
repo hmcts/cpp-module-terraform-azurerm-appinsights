@@ -98,9 +98,3 @@ variable "private_connectivity" {
   })
   default = null
 }
-
-variable "test-var-notneeded" {
-  type        = bool
-  description = "test variable not needed"
-  default     = false
-}

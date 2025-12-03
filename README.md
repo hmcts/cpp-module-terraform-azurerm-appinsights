@@ -64,7 +64,6 @@ module "todo_resource_name" {
 | <a name="input_private_connectivity"></a> [private\_connectivity](#input\_private\_connectivity) | n/a | <pre>object({<br/>    subnet_id      = string<br/>    scope_name     = optional(string)<br/>    scope_rg_name  = optional(string)<br/>    existing_scope = optional(bool, false)<br/>    ingestion_mode = optional(string, "Open")<br/>    query_mode     = optional(string, "Open")<br/>    dns_zone_ids   = optional(list(string), [])<br/>  })</pre> | `null` | no |
 | <a name="input_resource_group"></a> [resource\_group](#input\_resource\_group) | Defines the resource group to deploy resources into. If `existing` is set to true, the module will use the existing resource group with the specified name. | <pre>object({<br/>    name     = string<br/>    existing = optional(bool, false)<br/>  })</pre> | n/a | yes |
 | <a name="input_tags"></a> [tags](#input\_tags) | Map of tags to apply to all resources. | `map(string)` | `{}` | no |
-| <a name="input_test-var-notneeded"></a> [test-var-notneeded](#input\_test-var-notneeded) | test variable not needed | `bool` | `false` | no |
 
 ## Outputs
 
